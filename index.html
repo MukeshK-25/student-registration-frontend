@@ -26,7 +26,7 @@ form.addEventListener("submit", async (e) => {
     const name = document.getElementById("name").value;
     const course = document.getElementById("course").value;
 
-    await fetch("http://localhost:3000/students", {
+    await fetch("http://nodejs-production-cffcc.up.railway.app/students", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
