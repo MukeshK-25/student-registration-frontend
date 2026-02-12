@@ -1,22 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Mukesh Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Student Registration</title>
 </head>
 <body>
-    <h1>Hello, I'm Mukesh</h1>
-    <p>Third Year Student | Aspiring Full Stack Developer</p>
 
-    <h2>Skills</h2>
-    <ul>
-        <li>Python</li>
-        <li>HTML</li>
-        <li>CSS</li>
-    </ul>
+<h1>Student Registration System</h1>
 
-    <h2>Projects</h2>
-    <p>Coming Soon...</p>
+<form id="studentForm">
+    <input type="text" id="name" placeholder="Enter Name" required>
+    <input type="text" id="course" placeholder="Enter Course" required>
+    <button type="submit">Add Student</button>
+</form>
+
+<h2>Student List</h2>
+<ul id="studentList"></ul>
+
+<script>
+const form = document.getElementById("studentForm");
+const studentList = document.getElementById("studentList");
+
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const course = document.getElementById("course").value;
+
+    await fetch("http://localhost:3000/students", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name, course })
+    });
+
+    loadStudents();
+});
+
+async function loadStudents() {
+    const response = await fetch("http://localhost:3000/students");
+    const students = await response.json();
+
+    studentList.innerHTML = "";
+
+    students.forEach(student => {
+        const li = document.createElement("li");
+        li.textContent = student.name + " - " + student.course;
+        studentList.appendChild(li);
+    });
+}
+
+loadStudents();
+</script>
 
 </body>
 </html>
